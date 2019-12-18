@@ -26,7 +26,7 @@ class MyHomePage extends StatelessWidget {
     Transaction(
       id: 't2',
       title: 'Weekly eateries ',
-      amount: 105.99,
+      amount: 15.99,
       date: DateTime.now(),
     ),
   ];
@@ -55,6 +55,9 @@ class MyHomePage extends StatelessWidget {
                   child: Row(
                 children: <Widget>[
                   Container(
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black, width: 2)),
                     child: Text(
                       transaction.amount.toString(),
                     ),
