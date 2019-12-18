@@ -10,14 +10,12 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // 특정 구역만 스크롤이 가능해진다 차트 영역(상단)은 고정됨
-      // this allow to scroll on designated part and fix other part
       height: 300,
-      child: SingleChildScrollView(
-        child: Column(
-          children: transactions.map((transaction) {
-            return Card(
-                child: Row(
+      child: ListView.builder(
+        // children vs builder? longer for builder shoter for children
+        itemBuilder: (ctx, index) {
+          return Card(
+            child: Row(
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -29,7 +27,7 @@ class TransactionList extends StatelessWidget {
                   ),
                   padding: EdgeInsets.all(10),
                   child: Text(
-                    '\$ ${transaction.amount}',
+                    '\$ ${transactions[index].amount}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -41,20 +39,21 @@ class TransactionList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      transaction.title,
+                      transactions[index].title,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                     Text(
-                      DateFormat('yyyy MM/dd').format(transaction.date),
+                      DateFormat('yyyy MM/dd').format(transactions[index].date),
                       style: TextStyle(color: Colors.grey),
                     )
                   ],
                 )
               ],
-            ));
-          }).toList(),
-        ),
+            ),
+          );
+        },
+        itemCount: transactions.length,
       ),
     );
   }
