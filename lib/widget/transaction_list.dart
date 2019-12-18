@@ -11,6 +11,7 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // 특정 구역만 스크롤이 가능해진다 차트 영역(상단)은 고정됨
+      // this allow to scroll on designated part and fix other part
       height: 300,
       child: SingleChildScrollView(
         child: Column(
