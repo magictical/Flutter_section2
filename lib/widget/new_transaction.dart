@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+class NewTransaction extends StatefulWidget {
   final Function transactionHandler;
 
   NewTransaction(this.transactionHandler);
+
+  @override
+  _NewTransactionState createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
 
   void submitData() {
     final enteredTitle = titleController.text;
@@ -15,11 +21,14 @@ class NewTransaction extends StatelessWidget {
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
       return;
     }
-
-    transactionHandler(
-      titleController.text,
-      double.parse(amountController.text),
+    // transactionHandler는 NewTransaction의 property로 State클래스에서
+    // 사용할 수 없지만 flutter의 widget.~ 을 사용해서 접근할 수있다.
+    widget.transactionHandler(
+      enteredTitle,
+      enteredAmount,
     );
+    // close the window after user input
+    Navigator.of(context).pop();
   }
 
   Widget build(BuildContext context) {
