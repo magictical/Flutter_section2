@@ -26,10 +26,11 @@ class Chart extends StatelessWidget {
       print(totalSum);
 
       return {
-        'day': DateFormat.E().format(weekDay).substring(0, 1),
+        'day': DateFormat.E().format(weekDay).substring(0, 3),
         'amount': totalSum
       };
-    });
+      // reversed list
+    }).reversed.toList();
   }
 
   double get totalSpending {
