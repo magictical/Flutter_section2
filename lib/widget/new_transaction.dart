@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function transactionHandler;
@@ -10,12 +11,13 @@ class NewTransaction extends StatefulWidget {
 }
 
 class _NewTransactionState extends State<NewTransaction> {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
+  DateTime _selectedDate;
 
   void _submitData() {
-    final enteredTitle = titleController.text;
-    final enteredAmount = double.parse(amountController.text);
+    final enteredTitle = _titleController.text;
+    final enteredAmount = double.parse(_amountController.text);
 
     // check valid input data
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
@@ -33,10 +35,19 @@ class _NewTransactionState extends State<NewTransaction> {
 
   void _presentDatePicker() {
     showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now().subtract(Duration(days: 365)),
-        lastDate: DateTime.now());
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now().subtract(Duration(days: 365)),
+      lastDate: DateTime.now(),
+      // trigering after choose date
+    ).then((pickDate) {
+      if (pickDate == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = pickDate;
+      });
+    });
   }
 
   Widget build(BuildContext context) {
@@ -51,7 +62,7 @@ class _NewTransactionState extends State<NewTransaction> {
               decoration: InputDecoration(hintText: 'Title'),
               // onChanged: (val) => titleInput = val,
               // instead use controller
-              controller: titleController,
+              controller: _titleController,
               //(_) : convention for not to use even if flutter force to use it
               // anonymous fuction has to be executed! with ()
               onSubmitted: (_) => _submitData(),
@@ -62,16 +73,22 @@ class _NewTransactionState extends State<NewTransaction> {
 
               // onChanged: (val) => amountInput = val,
               // instead use controller
-              controller: amountController,
+              controller: _amountController,
               onSubmitted: (_) => _submitData(),
             ),
             // add data picker
-            Row(
-              children: <Widget>[
-                Text('No Date Chosen'),
-                Container(
-                  height: 57,
-                  child: FlatButton(
+            Container(
+              height: 70,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? 'No Date Chosen'
+                          : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
+                    ),
+                  ),
+                  FlatButton(
                       textColor: Theme.of(context).primaryColor,
                       child: Text(
                         'Choose Date',
@@ -82,8 +99,8 @@ class _NewTransactionState extends State<NewTransaction> {
                       onPressed: () {
                         _presentDatePicker();
                       }),
-                ),
-              ],
+                ],
+              ),
             ),
             RaisedButton(
               child: Text('Add Transaction'),
