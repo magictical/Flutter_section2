@@ -13,7 +13,7 @@ class _NewTransactionState extends State<NewTransaction> {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
 
-  void submitData() {
+  void _submitData() {
     final enteredTitle = titleController.text;
     final enteredAmount = double.parse(amountController.text);
 
@@ -31,6 +31,14 @@ class _NewTransactionState extends State<NewTransaction> {
     Navigator.of(context).pop();
   }
 
+  void _presentDatePicker() {
+    showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now().subtract(Duration(days: 365)),
+        lastDate: DateTime.now());
+  }
+
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
@@ -46,7 +54,7 @@ class _NewTransactionState extends State<NewTransaction> {
               controller: titleController,
               //(_) : convention for not to use even if flutter force to use it
               // anonymous fuction has to be executed! with ()
-              onSubmitted: (_) => submitData(),
+              onSubmitted: (_) => _submitData(),
             ),
             TextField(
               decoration: InputDecoration(hintText: 'Amount'),
@@ -55,7 +63,7 @@ class _NewTransactionState extends State<NewTransaction> {
               // onChanged: (val) => amountInput = val,
               // instead use controller
               controller: amountController,
-              onSubmitted: (_) => submitData(),
+              onSubmitted: (_) => _submitData(),
             ),
             // add data picker
             Row(
@@ -64,23 +72,24 @@ class _NewTransactionState extends State<NewTransaction> {
                 Container(
                   height: 57,
                   child: FlatButton(
-                    textColor: Theme.of(context).primaryColor,
-                    child: Text(
-                      'Choose Date',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                      textColor: Theme.of(context).primaryColor,
+                      child: Text(
+                        'Choose Date',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    onPressed: () {},
-                  ),
-                )
+                      onPressed: () {
+                        _presentDatePicker();
+                      }),
+                ),
               ],
             ),
             RaisedButton(
               child: Text('Add Transaction'),
               color: Theme.of(context).primaryColor,
               textColor: Theme.of(context).textTheme.button.color,
-              onPressed: submitData,
+              onPressed: _submitData,
             )
           ],
         ),
