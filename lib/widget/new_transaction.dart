@@ -57,6 +57,25 @@ class _NewTransactionState extends State<NewTransaction> {
               controller: amountController,
               onSubmitted: (_) => submitData(),
             ),
+            // add data picker
+            Row(
+              children: <Widget>[
+                Text('No Date Chosen'),
+                Container(
+                  height: 57,
+                  child: FlatButton(
+                    textColor: Theme.of(context).primaryColor,
+                    child: Text(
+                      'Choose Date',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () {},
+                  ),
+                )
+              ],
+            ),
             FlatButton(
               child: Text('Add Transaction'),
               textColor: Colors.purple,
