@@ -16,19 +16,19 @@ class _NewTransactionState extends State<NewTransaction> {
   DateTime _selectedDate;
 
   void _submitData() {
+    if (_amountController.text.isEmpty) {
+      return;
+    }
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
 
     // check valid input data
-    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null) {
       return;
     }
     // transactionHandler는 NewTransaction의 property로 State클래스에서
     // 사용할 수 없지만 flutter의 widget.~ 을 사용해서 접근할 수있다.
-    widget.transactionHandler(
-      enteredTitle,
-      enteredAmount,
-    );
+    widget.transactionHandler(enteredTitle, enteredAmount, _selectedDate);
     // close the window after user input
     Navigator.of(context).pop();
   }
