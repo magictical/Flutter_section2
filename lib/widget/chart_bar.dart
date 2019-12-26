@@ -9,6 +9,7 @@ class ChartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('build() ChartBar');
     // LayoutBuilder의 contraints를 전체 높이의 %를 각 widget에 할당!
     return LayoutBuilder(
       builder: (ctx, constraints) {
