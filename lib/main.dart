@@ -190,14 +190,8 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
   }
 
-  @override
-  Widget build(BuildContext context) {
-    print('build() MyHomePage');
-    final mediaQuery = MediaQuery.of(context);
-    // check device's orientation
-    final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    // now we can access context data in Appbar cuz it's variable.
-    final PreferredSizeWidget appBar = Platform.isIOS
+  Widget buildAdaptiveAppBar() {
+    return Platform.isIOS
         ? CupertinoNavigationBar(
             middle: Text(
               'Personal Expense',
@@ -222,6 +216,16 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ],
           );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print('build() MyHomePage');
+    final mediaQuery = MediaQuery.of(context);
+    // check device's orientation
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+    // now we can access context data in Appbar cuz it's variable.
+    final PreferredSizeWidget appBar = buildAdaptiveAppBar();
 
     final txListWidget = Container(
         height: (mediaQuery.size.height -
