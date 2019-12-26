@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:section2_expenseapp/widget/transaction_list.dart';
 import './widget/new_transaction.dart';
@@ -210,13 +210,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             if (!isLandscape)
-              Container(
-                  height: (mediaQuery.size.height -
-                          appBar.preferredSize.height -
-                          mediaQuery.padding.top) *
-                      0.3,
-                  child: Chart(_recentTransactions)),
-            if (!isLandscape) txListWidget,
+              Column(
+                children: <Widget>[
+                  Container(
+                      height: (mediaQuery.size.height -
+                              appBar.preferredSize.height -
+                              mediaQuery.padding.top) *
+                          0.3,
+                      child: Chart(_recentTransactions)),
+                  txListWidget
+                ],
+              ),
             if (isLandscape)
               _setShowChart
                   ? Container(
